@@ -1,0 +1,51 @@
+- hosts: dbservers
+  tasks:
+    - name: 1.Install MYSQL
+      yum:
+        name: mariadb-server 
+        state: present
+    - name: 2.Install the Python MySQL Support Libraries
+      yum: pkg=MySQL-python state=latest
+    - name: 3. Start mysql server and enable it on reboot
+      service: name=mariadb state=restarted enabled=true
+
+    - name: 4.Copy file with owner and permissions
+      copy:
+          src: /root/.my.cnf
+          dest: /root
+
+    - name: 5. create user  user/test
+      mysql_user:
+          host: localhost
+          name: archana
+          password: archana
+          priv: '*.*:ALL,GRANT'
+          state: present
+    - name: 6.Create a New Test DB called myDB
+      mysql_db: 
+         name: sncf
+         state: present 
+         login_user: archana
+         login_password: archana
+
+    - name: 7. create user  user/test accessble FROM EVERYWHERE
+      mysql_user:
+          host: '%'
+          name: archana
+          password: archana
+          priv: 'archana.*:ALL,GRANT'
+          state: present
+
+    - name: 8. Copy file train_sql
+      copy:
+          src: /root/sncf-POIE-projet/train.sql
+          dest: /root/train.sql
+   
+    - name: 9. Import train_sql
+      mysql_db:
+          state: import
+          login_user: archana
+          login_password: archana
+          name: archana
+          target: /root/train.sql
+
