@@ -24,4 +24,3 @@ ALTER TABLE `trajets` ADD FOREIGN KEY (`Id_train`) REFERENCES `trains`(`Id_train
 ALTER TABLE `trajets` ADD FOREIGN KEY (`Id_gare`) REFERENCES `gares`(`Id_gare`);
 
 
-

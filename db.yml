@@ -71,16 +71,14 @@
     - name: 13. Install Apache2-php5
       package: name=php state=present
 
-    - name: 14. Install git
-      yum:
-        name: git 
-        state: latest  
+    - name: 14. Copy index.php
+      sudo: yes
+      copy: src=/root/sncf-POIE-projet/dev/index.php dest=/var/www/html/index.php
 
-    - name: 15. Update files to git repository on the hub
-      git: 
-        repo: 'https://github.com/RamadossAr/tp_dev_sncf.git' 
-        dest: dev   
-        version: release-0.22
+    - name: 15. Copy param.php
+      sudo: yes
+      copy: src=/root/sncf-POIE-projet/dev/param.php dest=/var/www/html/param.php
+
 
 
 
